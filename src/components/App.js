@@ -17,7 +17,7 @@ export default function App(props) {
       <p className="welcome__text">Правила просты:</p>
       <ul className="welcome__rules-list">
         <li>За {props.time} минут нужно ответить на все вопросы.</li>
-        <li>Можно допустить {props.mistakes}  ошибки.</li>
+        <li>Можно допустить {props.mistakes} ошибки.</li>
       </ul>
       <p className="welcome__text">Удачи!</p>
     </section>
