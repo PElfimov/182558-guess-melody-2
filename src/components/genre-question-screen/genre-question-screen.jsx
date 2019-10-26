@@ -5,11 +5,12 @@ export default function GenreQuestionScreen(props) {
   const {screenIndex, question, onAnswer} = props;
   const {answers, genre} = question;
   const userAnswers = [];
-  answers.map((it, i) => {
-    userAnswers.push({[i]: false});
+  answers.map((it) => {
+    userAnswers.push({
+      name: it.genre,
+      isCheck: false
+    });
   });
-
-  console.log(userAnswers);
 
   return (
     <section className="game game--genre">
@@ -38,7 +39,7 @@ export default function GenreQuestionScreen(props) {
           className="game__tracks"
           onSubmit={(evt) => {
             evt.preventDefault();
-            onAnswer();
+            onAnswer(userAnswers);
           }}>
           {answers.map((it, i) => {
             return (
@@ -52,10 +53,10 @@ export default function GenreQuestionScreen(props) {
                     className="game__input visually-hidden"
                     type="checkbox"
                     name="answer"
-                    value={`answer-${i}`}
+                    value={`${i}`}
                     id={`answer-${i}`}
                     onChange={(evt) => {
-                      _handleChange(evt);
+                      _handleChange(evt, userAnswers);
                     }}
                   />
                   <label className="game__check" htmlFor={`answer-${i}`}>
@@ -74,7 +75,10 @@ export default function GenreQuestionScreen(props) {
   );
 }
 
-const _handleChange = (evt) => {};
+const _handleChange = (evt, userAnswers) => {
+  const target = evt.target.value;
+  userAnswers[target].isCheck = !userAnswers[target].isCheck;
+};
 
 GenreQuestionScreen.propTypes = {
   question: PropTypes.exact({
