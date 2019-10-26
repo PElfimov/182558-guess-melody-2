@@ -1,9 +1,9 @@
 import React from "react";
-import renderer from 'react-test-renderer';
-import App from './app';
+import renderer from "react-test-renderer";
+import ArtistQuestionScreen from './artist-question-screen';
 
 
-const questions = [{
+const question = {
   type: `artist`,
   song: {
     artist: `Jim Beam`,
@@ -23,15 +23,12 @@ const questions = [{
       artist: `Jim Beam`
     }
   ]
-}];
+};
 
-it(`App correctly renders after relaunch`, () => {
+it(`ArtistQuestionScreen component render correctly`, () => {
   const tree = renderer
-    .create(<App
-      mistakes={0}
-      time={0}
-      questions={questions}
-    />)
+    .create(<ArtistQuestionScreen question={question} screenIndex={0} onAnswer={() => {}} />)
     .toJSON();
+
   expect(tree).toMatchSnapshot();
 });

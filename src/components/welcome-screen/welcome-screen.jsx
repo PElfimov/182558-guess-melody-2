@@ -8,8 +8,6 @@ WelcomeScreen.propTypes = {
 };
 
 export default function WelcomeScreen(props) {
-
-
   return (
     <section className="welcome">
       <div className="welcome__logo">
