@@ -1,10 +1,10 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 
-export default class App extends React.PureComponent {
+export default class App extends PureComponent {
   static getScreen(question, props, onUserAnswer) {
     const {time, mistakes} = props;
 

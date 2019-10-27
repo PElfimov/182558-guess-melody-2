@@ -9,6 +9,7 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
   >
     <a
       className="game__back"
+      href="#"
     >
       <span
         className="visually-hidden"
@@ -21,8 +22,28 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
         src="img/melody-logo-ginger.png"
       />
     </a>
+    <svg
+      className="timer"
+      viewBox="0 0 780 780"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        className="timer__line"
+        cx={390}
+        cy={390}
+        r={370}
+        style={
+          Object {
+            "filter": "url(#blur)",
+            "transform": "scaleY(-1)",
+            "transformOrigin": "center",
+          }
+        }
+      />
+    </svg>
     <div
       className="timer__value"
+      xmlns="http://www.w3.org/1999/xhtml"
     >
       <span
         className="timer__mins"
@@ -84,9 +105,11 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
           className="game__answer"
         >
           <input
+            checked={false}
             className="game__input visually-hidden"
             id="answer-0"
-            name="answer"
+            name="answer-0"
+            onChange={[Function]}
             type="checkbox"
             value="answer-0"
           />
@@ -114,9 +137,11 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
           className="game__answer"
         >
           <input
+            checked={false}
             className="game__input visually-hidden"
             id="answer-1"
-            name="answer"
+            name="answer-1"
+            onChange={[Function]}
             type="checkbox"
             value="answer-1"
           />
@@ -144,9 +169,11 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
           className="game__answer"
         >
           <input
+            checked={false}
             className="game__input visually-hidden"
             id="answer-2"
-            name="answer"
+            name="answer-2"
+            onChange={[Function]}
             type="checkbox"
             value="answer-2"
           />
@@ -174,9 +201,11 @@ exports[`ArtistQuestionScreen component render correctly 1`] = `
           className="game__answer"
         >
           <input
+            checked={false}
             className="game__input visually-hidden"
             id="answer-3"
-            name="answer"
+            name="answer-3"
+            onChange={[Function]}
             type="checkbox"
             value="answer-3"
           />
