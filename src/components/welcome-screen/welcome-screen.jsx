@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-App.propTypes = {
+WelcomeScreen.propTypes = {
   mistakes: PropTypes.number.isRequired,
   time: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };
 
-export default function App(props) {
-
-
+export default function WelcomeScreen(props) {
   return (
     <section className="welcome">
       <div className="welcome__logo">
