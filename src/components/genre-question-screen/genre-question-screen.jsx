@@ -129,7 +129,7 @@ export default class GenreQuestionScreen extends PureComponent {
 GenreQuestionScreen.propTypes = {
   question: PropTypes.exact({
     type: PropTypes.oneOf([`genre`, `artist`]),
-    genre: PropTypes.oneOf([`rock`, `pop`, `jazz`, `folk`]),
+    genre: PropTypes.string,
     answers: PropTypes.arrayOf(
         PropTypes.exact({
           src: PropTypes.string,
