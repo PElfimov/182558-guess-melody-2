@@ -73,7 +73,7 @@ describe(`GenreQuestionScreen component e2e tests`, () => {
 
   it(`Answer correctly changed status on true in state`, () => {
     const name = changeCheckboxStatus(wrapper);
-    expect(wrapper.state(name)).toBeTruthy();
+    expect(wrapper.state(`userAnswers`)[name]).toBeTruthy();
   });
 
   it(`Answer correctly changed status on false in state`, () => {
