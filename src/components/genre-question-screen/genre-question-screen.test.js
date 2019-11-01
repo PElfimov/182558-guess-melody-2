@@ -25,10 +25,13 @@ const question =
 };
 
 
-it(`ArtistQuestionScreen component render correctly`, () => {
-  const tree = renderer
-    .create(<GenreQuestionScreen question={question} screenIndex={0} onAnswer={() => {}} />)
-    .toJSON();
+it(`GenreQuestionScreen component render correctly`, () => {
+  const tree = renderer.create(<GenreQuestionScreen
+    question={question}
+    screenIndex={0}
+    onAnswer={() => {}}
+  />, {createNodeMock: () => ({})}
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

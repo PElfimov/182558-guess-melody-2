@@ -1,12 +1,16 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import AudioPlayer from "../audio-player/audio-player";
 
 export default class GenreQuestionScreen extends PureComponent {
   static _getInitialState(answers) {
-    const initialState = {};
+    const initialState = {
+      activePlayer: -1,
+      userAnswers: {}
+    };
 
     answers.forEach((answer, i) => {
-      Object.assign(initialState, {[`answer-${i}`]: false});
+      Object.assign(initialState.userAnswers, {[`answer-${i}`]: false});
     });
 
     return initialState;
@@ -21,10 +25,11 @@ export default class GenreQuestionScreen extends PureComponent {
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  _handleChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.checked
-    });
+  _handleChange({target: {name, checked}}) {
+    const userAnswers = Object.assign({}, this.state.userAnswers);
+    userAnswers[name] = checked;
+
+    this.setState({userAnswers});
   }
 
   _handleSubmit(evt) {
@@ -36,10 +41,11 @@ export default class GenreQuestionScreen extends PureComponent {
   }
 
   _getCheckedAnswer() {
+    const {userAnswers} = this.state;
     const {answers} = this.props.question;
     const checkedAnswers = [];
 
-    for (let [key, value] of Object.entries(this.state)) {
+    for (let [key, value] of Object.entries(userAnswers)) {
       if (value) {
         const index = key.split(``).reverse()[0];
         checkedAnswers.push(answers[index]);
@@ -95,17 +101,22 @@ export default class GenreQuestionScreen extends PureComponent {
             {answers.map((answer, i) => {
               return (
                 <div key={`${screenIndex}-answer-${i}`} className="track">
-                  <button className="track__button track__button--play" type="button" />
-                  <div className="track__status">
-                    <audio />
-                  </div>
+                  <AudioPlayer
+                    src={answer.src}
+                    isPlaying={i === this.state.activePlayer}
+                    onPlayButtonClick={() =>
+                      this.setState({
+                        activePlayer: this.state.activePlayer === i ? -1 : i
+                      })
+                    }
+                  />
                   <div className="game__answer">
                     <input
                       className="game__input visually-hidden"
                       type="checkbox"
                       name={`answer-${i}`}
                       value={`answer-${i}`}
-                      checked={this.state[`answer-${i}`]}
+                      checked={this.state.userAnswers[`answer-${i}`]}
                       id={`answer-${i}`}
                       onChange={this._handleChange}
                     />
@@ -129,7 +140,7 @@ export default class GenreQuestionScreen extends PureComponent {
 GenreQuestionScreen.propTypes = {
   question: PropTypes.exact({
     type: PropTypes.oneOf([`genre`, `artist`]),
-    genre: PropTypes.oneOf([`rock`, `pop`, `jazz`, `folk`]),
+    genre: PropTypes.string,
     answers: PropTypes.arrayOf(
         PropTypes.exact({
           src: PropTypes.string,

@@ -26,9 +26,12 @@ const question = {
 };
 
 it(`ArtistQuestionScreen component render correctly`, () => {
-  const tree = renderer
-    .create(<ArtistQuestionScreen question={question} screenIndex={0} onAnswer={() => {}} />)
-    .toJSON();
+  const tree = renderer.create(<ArtistQuestionScreen
+    question={question}
+    screenIndex={0}
+    onAnswer={() => {}}
+  />, {createNodeMock: () => ({})}
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
