@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
 import AudioPlayer from "../audio-player/audio-player";
+import propTypes from "./prop-types";
 
 export default class GenreQuestionScreen extends PureComponent {
   static _getInitialState(answers) {
@@ -137,17 +137,4 @@ export default class GenreQuestionScreen extends PureComponent {
   }
 }
 
-GenreQuestionScreen.propTypes = {
-  question: PropTypes.exact({
-    type: PropTypes.oneOf([`genre`, `artist`]),
-    genre: PropTypes.string,
-    answers: PropTypes.arrayOf(
-        PropTypes.exact({
-          src: PropTypes.string,
-          genre: PropTypes.string
-        })
-    )
-  }).isRequired,
-  screenIndex: PropTypes.number.isRequired,
-  onAnswer: PropTypes.func
-};
+GenreQuestionScreen.propTypes = propTypes;
