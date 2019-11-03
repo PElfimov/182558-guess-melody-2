@@ -28,23 +28,24 @@ const question = {
   ],
 };
 
-const changeCheckboxStatus = (wrapper, status = true) => {
-  const input = wrapper.find(`.game__input`).first();
-  const name = input.prop(`name`);
-  input.simulate(`change`, {
-    target: {
-      name,
-      checked: status
-    }
-  });
+const answers = [true, true, false, true];
 
-  return name;
+const changeCheckboxStatus = (wrapper, UserAnswers) => {
+  wrapper.find(`.game__input`).forEach((node, index) => {
+    let name = node.prop(`name`);
+    node.simulate(`change`, {
+      target: {
+        name,
+        checked: UserAnswers[index],
+      }
+    });
+  });
 };
 
 describe(`GenreQuestionScreen component e2e tests`, () => {
-  const answer = question.answers[0];
   let wrapper;
   let callbackFunction;
+  let form;
 
   beforeEach(() => {
     callbackFunction = jest.fn();
@@ -54,34 +55,44 @@ describe(`GenreQuestionScreen component e2e tests`, () => {
       onAnswer={callbackFunction}
     />
     );
-
-    changeCheckboxStatus(wrapper);
-
-    const form = wrapper.find(`.game__tracks`);
-    form.simulate(`submit`, {
-      preventDefault: () => {}
-    });
+    changeCheckboxStatus(wrapper, answers);
+    form = wrapper.find(`.game__tracks`);
   });
 
   it(`Check data in callback function`, () => {
-    expect(callbackFunction).toHaveBeenCalledWith([answer]);
+
+    form.simulate(`submit`, {
+      preventDefault: () => {}
+    });
+    expect(callbackFunction).toHaveBeenCalledWith(answers);
   });
 
   it(`Check call count function`, () => {
+    form.simulate(`submit`, {
+      preventDefault: () => {}
+    });
     expect(callbackFunction).toBeCalledTimes(1);
   });
 
   it(`Answer correctly changed status on true in state`, () => {
-    const name = changeCheckboxStatus(wrapper);
+    const name = `answer-1`;
     expect(wrapper.state(`userAnswers`)[name]).toBeTruthy();
   });
 
   it(`Answer correctly changed status on false in state`, () => {
-    const name = changeCheckboxStatus(wrapper, false);
-    expect(wrapper.state(name)).toBeFalsy();
+    const name = `answer-2`;
+    expect(wrapper.state(`userAnswers`)[name]).toBeFalsy();
   });
 
   it(`Reset state working correctly`, () => {
-    expect(wrapper.state()).toEqual(GenreQuestionScreen._getInitialState(question.answers));
+    form.simulate(`submit`, {
+      preventDefault: () => {}
+    });
+    expect(wrapper.state(`userAnswers`)).toEqual({
+      "answer-0": false,
+      "answer-1": false,
+      "answer-2": false,
+      "answer-3": false,
+    });
   });
 });

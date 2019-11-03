@@ -28,29 +28,23 @@ export default class GenreQuestionScreen extends PureComponent {
   _handleChange({target: {name, checked}}) {
     const userAnswers = Object.assign({}, this.state.userAnswers);
     userAnswers[name] = checked;
-
     this.setState({userAnswers});
   }
 
   _handleSubmit(evt) {
     evt.preventDefault();
     const {onAnswer} = this.props;
-
     onAnswer(this._getCheckedAnswer());
     this._resetState();
   }
 
   _getCheckedAnswer() {
     const {userAnswers} = this.state;
-    const {answers} = this.props.question;
-    const checkedAnswers = [];
+    const keys = Object.keys(userAnswers);
 
-    for (let [key, value] of Object.entries(userAnswers)) {
-      if (value) {
-        const index = key.split(``).reverse()[0];
-        checkedAnswers.push(answers[index]);
-      }
-    }
+    let checkedAnswers = keys.map((el) => {
+      return userAnswers[el];
+    });
 
     return checkedAnswers;
   }
