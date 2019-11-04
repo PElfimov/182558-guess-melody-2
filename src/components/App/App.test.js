@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from 'react-test-renderer';
-import App from './app';
+import {App} from './app';
 
 
 const questions = [{
@@ -28,9 +28,16 @@ const questions = [{
 it(`App correctly renders after relaunch`, () => {
   const tree = renderer
     .create(<App
+      maxMistakes={10}
       mistakes={0}
-      time={0}
+      step={-1}
+      time={10}
+      onWelcomeScreenClick={jest.fn()}
+      onUserAnswer={jest.fn()}
       questions={questions}
+      registrateTimer={jest.fn()}
+      onTimeUpdate={jest.fn()}
+      onTimeEnd={jest.fn()}
     />)
     .toJSON();
   expect(tree).toMatchSnapshot();

@@ -1,27 +1,37 @@
 import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
+import {ActionCreator} from "../../reducer/reducer";
+import GameHeader from "../game-header/game-header";
+import propTypes from "./prop-types.js";
 
-export default class App extends PureComponent {
-  static getScreen(question, props, onUserAnswer) {
-    const {time, mistakes} = props;
+class App extends PureComponent {
+  static getScreen(step, props) {
+    const {time, mistakes, maxMistakes} = props;
 
-    if (question === -1) {
-      return <WelcomeScreen mistakes={mistakes} time={time} onClick={onUserAnswer} />;
+    if (step === -1) {
+      return (
+        <WelcomeScreen
+          mistakes={maxMistakes}
+          time={time / 1000 / 60}
+          onClick={() => props.onWelcomeScreenClick()}
+        />
+      );
     }
 
     const {questions} = props;
-    const currentQuestion = questions[question];
-
+    const currentQuestion = questions[step];
     switch (currentQuestion.type) {
       case `genre`:
         return (
           <GenreQuestionScreen
             question={currentQuestion}
-            onAnswer={onUserAnswer}
-            screenIndex={question}
+            onAnswer={(userAnswer) =>
+              props.onUserAnswer(userAnswer, questions, mistakes, maxMistakes, step)
+            }
+            screenIndex={step}
           />
         );
 
@@ -29,8 +39,10 @@ export default class App extends PureComponent {
         return (
           <ArtistQuestionScreen
             question={currentQuestion}
-            onAnswer={onUserAnswer}
-            screenIndex={question}
+            onAnswer={(userAnswer) =>
+              props.onUserAnswer(userAnswer, questions, mistakes, maxMistakes, step)
+            }
+            screenIndex={step}
           />
         );
     }
@@ -40,28 +52,53 @@ export default class App extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      question: -1
-    };
   }
 
   render() {
-    const questions = this.props.questions;
-    return App.getScreen(this.state.question, this.props, () => {
-      this.setState((state) => {
-        const nextIndex = state.question + 1;
-        const isEnd = nextIndex >= questions.length;
-
-        return {
-          question: !isEnd ? nextIndex : -1
-        };
-      });
-    });
+    const {step, mistakes, time, registrateTimer, onTimeUpdate, onTimeEnd} = this.props;
+    return (
+      <section className="game">
+        {step > -1 && (
+          <GameHeader
+            mistakes={mistakes}
+            gameTime={time}
+            registrateTimer={registrateTimer}
+            onTimeUpdate={onTimeUpdate}
+            onTimeEnd={onTimeEnd}
+          />
+        )}
+        {App.getScreen(this.props.step, this.props)}
+      </section>
+    );
   }
 }
 
-App.propTypes = {
-  mistakes: PropTypes.number.isRequired,
-  time: PropTypes.number.isRequired,
-  questions: PropTypes.array.isRequired
-};
+App.propTypes = propTypes;
+
+const mapStateToProps = (state, ownProps) =>
+  Object.assign({}, ownProps, {
+    step: state.step,
+    mistakes: state.mistakes,
+    time: state.time
+  });
+
+const mapDispatchToProps = (dispatch) => ({
+  onWelcomeScreenClick: () => dispatch(ActionCreator.incrementStep()),
+  onUserAnswer: (onUserAnswer, questions, mistakes, maxMistakes, step) => {
+    dispatch(ActionCreator.incrementStep());
+    dispatch(ActionCreator.incrementMistake(onUserAnswer, questions, mistakes, maxMistakes, step));
+  },
+
+  onTimeUpdate: () => dispatch(ActionCreator.decrementTime()),
+
+  onTimeEnd: () => dispatch(ActionCreator.resetGame()),
+
+  registrateTimer: (id) => dispatch(ActionCreator.registrateTimer(id))
+});
+
+export {App};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
