@@ -35,6 +35,9 @@ it(`App correctly renders after relaunch`, () => {
       onWelcomeScreenClick={jest.fn()}
       onUserAnswer={jest.fn()}
       questions={questions}
+      registrateTimer={jest.fn()}
+      onTimeUpdate={jest.fn()}
+      onTimeEnd={jest.fn()}
     />)
     .toJSON();
   expect(tree).toMatchSnapshot();

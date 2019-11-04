@@ -1,9 +1,9 @@
 import React from "react";
 import propTypes from "./prop-types.js";
-// import GameTime from "../game-time/game-time.jsx";
+import GameTime from "../game-time/game-time.jsx";
 import GameMistakes from "../game-mistakes/game-mistakes.jsx";
 
-const GameHeader = ({mistakes}) => {
+const GameHeader = ({mistakes, gameTime, onTimeUpdate, onTimeEnd, registrateTimer}) => {
   return (
     <header className="game__header">
       <a className="game__back" href="#">
@@ -25,12 +25,12 @@ const GameHeader = ({mistakes}) => {
         />
       </svg>
 
-      {/* <GameTime
+      <GameTime
         time={gameTime}
         onTimeUpdate={onTimeUpdate}
         onTimeEnd={onTimeEnd}
         registrateTimer={registrateTimer}
-      /> */}
+      />
 
       <GameMistakes mistakes={mistakes} />
     </header>

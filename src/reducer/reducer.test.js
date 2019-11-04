@@ -56,6 +56,8 @@ describe(`Reducer works correctly`, () => {
     expect(reducer(undefined, {})).toEqual({
       step: -1,
       mistakes: 0,
+      time: 300000,
+      gameTimer: null
     });
   });
   it(`Reducer should increment current step by a given value`, () => {
@@ -110,11 +112,34 @@ describe(`Reducer works correctly`, () => {
     expect(reducer({
       step: 898,
       mistakes: 34,
+      time: 300000,
+      gameTimer: null
+
     }, {
       type: `RESET`,
     })).toEqual({
       step: -1,
       mistakes: 0,
+      time: 300000,
+      gameTimer: null
+    });
+  });
+
+  it(`Reducer correctly decrements time`, () => {
+    expect(reducer({
+      questionStep: -1,
+      mistakes: 0,
+      time: 300000,
+      gameTimer: null
+    }, {
+      type: `DECREMENT_TIME`,
+      payload: 1000
+    }
+    )).toEqual({
+      questionStep: -1,
+      mistakes: 0,
+      time: 299000,
+      gameTimer: null
     });
   });
 });

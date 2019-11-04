@@ -1,11 +1,11 @@
 import React, {PureComponent} from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 import {ActionCreator} from "../../reducer/reducer";
 import GameHeader from "../game-header/game-header";
+import propTypes from "./prop-types.js";
 
 class App extends PureComponent {
   static getScreen(step, props) {
@@ -14,8 +14,8 @@ class App extends PureComponent {
     if (step === -1) {
       return (
         <WelcomeScreen
-          mistakes={mistakes}
-          time={time}
+          mistakes={maxMistakes}
+          time={time / 1000 / 60}
           onClick={() => props.onWelcomeScreenClick()}
         />
       );
@@ -55,15 +55,16 @@ class App extends PureComponent {
   }
 
   render() {
+    const {step, mistakes, time, registrateTimer, onTimeUpdate, onTimeEnd} = this.props;
     return (
       <section className="game">
-        {this.props.step > -1 && (
+        {step > -1 && (
           <GameHeader
-            mistakes={this.props.mistakes}
-            gameTime={200}
-            // registrateTimer={registrateTimer}
-            // onTimeUpdate={onTimeUpdate}
-            // onTimeEnd={onTimeEnd}
+            mistakes={mistakes}
+            gameTime={time}
+            registrateTimer={registrateTimer}
+            onTimeUpdate={onTimeUpdate}
+            onTimeEnd={onTimeEnd}
           />
         )}
         {App.getScreen(this.props.step, this.props)}
@@ -72,20 +73,13 @@ class App extends PureComponent {
   }
 }
 
-App.propTypes = {
-  maxMistakes: PropTypes.number.isRequired,
-  mistakes: PropTypes.number.isRequired,
-  step: PropTypes.number.isRequired,
-  time: PropTypes.number.isRequired,
-  questions: PropTypes.array.isRequired,
-  onWelcomeScreenClick: PropTypes.func.isRequired,
-  onUserAnswer: PropTypes.func.isRequired
-};
+App.propTypes = propTypes;
 
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     step: state.step,
-    mistakes: state.mistakes
+    mistakes: state.mistakes,
+    time: state.time
   });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -93,7 +87,13 @@ const mapDispatchToProps = (dispatch) => ({
   onUserAnswer: (onUserAnswer, questions, mistakes, maxMistakes, step) => {
     dispatch(ActionCreator.incrementStep());
     dispatch(ActionCreator.incrementMistake(onUserAnswer, questions, mistakes, maxMistakes, step));
-  }
+  },
+
+  onTimeUpdate: () => dispatch(ActionCreator.decrementTime()),
+
+  onTimeEnd: () => dispatch(ActionCreator.resetGame()),
+
+  registrateTimer: (id) => dispatch(ActionCreator.registrateTimer(id))
 });
 
 export {App};

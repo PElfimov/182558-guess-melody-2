@@ -12,7 +12,7 @@ const init = () => {
 
   ReactDOM.render(
       <Provider store={store}>
-        <App time={6} mistakes={5} maxMistakes={maxMistakes} questions={questions} />
+        <App mistakes={5} maxMistakes={maxMistakes} questions={questions} />
       </Provider>,
       document.querySelector(`#root`)
   );
