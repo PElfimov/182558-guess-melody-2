@@ -131,7 +131,7 @@ describe(`Action creators work correctly`, () => {
     expect(ActionCreator.incrementMistake({
       artist: `correct`,
       picture: ``
-    }, {
+    }, [{
       type: `artist`,
       song: {
         artist: `correct`,
@@ -146,7 +146,7 @@ describe(`Action creators work correctly`, () => {
         artist: `incorrect-2`,
         picture: ``
       }]
-    }, 0, Infinity)).toEqual({
+    }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
     });
@@ -156,7 +156,7 @@ describe(`Action creators work correctly`, () => {
     expect(ActionCreator.incrementMistake({
       artist: `incorrect`,
       picture: ``
-    }, {
+    }, [{
       type: `artist`,
       song: {
         artist: `correct`,
@@ -171,14 +171,14 @@ describe(`Action creators work correctly`, () => {
         artist: `incorrect-2`,
         picture: ``
       }]
-    }, 0, Infinity)).toEqual({
+    }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 1,
     });
   });
 
   it(`Action creator for incrementing mistakes return action with 0 payload`, () => {
-    expect(ActionCreator.incrementMistake([false, true, false, false], {
+    expect(ActionCreator.incrementMistake([false, true, false, false], [{
       type: `genre`,
       genre: `dance`,
       answers: [
@@ -199,14 +199,14 @@ describe(`Action creators work correctly`, () => {
           genre: `rock`,
         },
       ],
-    }, 0, Infinity)).toEqual({
+    }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
     });
   });
 
   it(`Action creator for incrementing mistakes return action with 1 payload`, () => {
-    expect(ActionCreator.incrementMistake([false, false, true, false], {
+    expect(ActionCreator.incrementMistake([false, false, true, false], [{
       type: `genre`,
       genre: `dance`,
       answers: [
@@ -227,7 +227,7 @@ describe(`Action creators work correctly`, () => {
           genre: `rock`,
         },
       ],
-    }, 0, Infinity)).toEqual({
+    }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 1,
     });
@@ -237,7 +237,7 @@ describe(`Action creators work correctly`, () => {
     expect(ActionCreator.incrementMistake({
       artist: `incorrect`,
       picture: ``
-    }, {
+    }, [{
       type: `artist`,
       song: {
         artist: `correct`,
@@ -252,13 +252,13 @@ describe(`Action creators work correctly`, () => {
         artist: `incorrect-2`,
         picture: ``
       }]
-    }, Infinity, 0)).toEqual({
+    }], Infinity, 0, 0)).toEqual({
       type: `RESET`,
     });
   });
 
   it(`Action creator reset state if user is answer incorrectly and sum mistakes = max`, () => {
-    expect(ActionCreator.incrementMistake([false, false, true, false], {
+    expect(ActionCreator.incrementMistake([false, false, true, false], [{
       type: `genre`,
       genre: `dance`,
       answers: [
@@ -279,7 +279,7 @@ describe(`Action creators work correctly`, () => {
           genre: `rock`,
         },
       ],
-    }, Infinity, 0)).toEqual({
+    }], Infinity, 0, 0)).toEqual({
       type: `RESET`
     });
   });
