@@ -14,14 +14,9 @@ const ActionCreator = {
   }),
 
   incrementMistake: (userUnswear, questions, mistakes, maxMistakes, step) => {
-    console.log(`ответ пользователя `, userUnswear);
-    console.log(`шаг `, step);
-    console.log(`Вопросы массив`, questions);
-    console.log(`Вопросы пререданные на экран`, questions[step]);
-
 
     let answerIsCorrect = false;
-    if (step >= questions.length) {
+    if (step + 1 >= questions.length) {
       return {
         type: `RESET`,
       };

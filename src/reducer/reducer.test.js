@@ -146,6 +146,21 @@ describe(`Action creators work correctly`, () => {
         artist: `incorrect-2`,
         picture: ``
       }]
+    }, {
+      type: `artist`,
+      song: {
+        artist: `correct`,
+        src: ``,
+      }, answers: [{
+        artist: `correct`,
+        picture: ``
+      }, {
+        artist: `incorrect`,
+        picture: ``
+      }, {
+        artist: `incorrect-2`,
+        picture: ``
+      }]
     }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
@@ -157,6 +172,21 @@ describe(`Action creators work correctly`, () => {
       artist: `incorrect`,
       picture: ``
     }, [{
+      type: `artist`,
+      song: {
+        artist: `correct`,
+        src: ``,
+      }, answers: [{
+        artist: `correct`,
+        picture: ``
+      }, {
+        artist: `incorrect`,
+        picture: ``
+      }, {
+        artist: `incorrect-2`,
+        picture: ``
+      }]
+    }, {
       type: `artist`,
       song: {
         artist: `correct`,
@@ -199,6 +229,28 @@ describe(`Action creators work correctly`, () => {
           genre: `rock`,
         },
       ],
+    },
+    {
+      type: `genre`,
+      genre: `dance`,
+      answers: [
+        {
+          src: `1`,
+          genre: `rock`,
+        },
+        {
+          src: `2`,
+          genre: `dance`,
+        },
+        {
+          src: `3`,
+          genre: `jazz`,
+        },
+        {
+          src: `4`,
+          genre: `rock`,
+        },
+      ],
     }], 0, Infinity, 0)).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
@@ -207,6 +259,28 @@ describe(`Action creators work correctly`, () => {
 
   it(`Action creator for incrementing mistakes return action with 1 payload`, () => {
     expect(ActionCreator.incrementMistake([false, false, true, false], [{
+      type: `genre`,
+      genre: `dance`,
+      answers: [
+        {
+          src: `1`,
+          genre: `rock`,
+        },
+        {
+          src: `2`,
+          genre: `dance`,
+        },
+        {
+          src: `3`,
+          genre: `jazz`,
+        },
+        {
+          src: `4`,
+          genre: `rock`,
+        },
+      ],
+    },
+    {
       type: `genre`,
       genre: `dance`,
       answers: [
@@ -327,7 +401,7 @@ describe(`Action creators work correctly`, () => {
           genre: `rock`,
         },
       ],
-    }], Infinity, 0, 2)).toEqual({
+    }], Infinity, 0, 3)).toEqual({
       type: `RESET`
     });
   });

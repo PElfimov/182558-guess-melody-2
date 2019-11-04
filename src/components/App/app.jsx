@@ -39,7 +39,7 @@ class App extends PureComponent {
           <ArtistQuestionScreen
             question={currentQuestion}
             onAnswer={(userAnswer) =>
-              props.onUserAnswer(userAnswer, currentQuestion, mistakes, maxMistakes, step)
+              props.onUserAnswer(userAnswer, questions, mistakes, maxMistakes, step)
             }
             screenIndex={step}
           />
