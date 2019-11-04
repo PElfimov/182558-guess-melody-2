@@ -5,6 +5,7 @@ import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 import {ActionCreator} from "../../reducer/reducer";
+import GameHeader from "../game-header/game-header";
 
 class App extends PureComponent {
   static getScreen(step, props) {
@@ -54,7 +55,20 @@ class App extends PureComponent {
   }
 
   render() {
-    return App.getScreen(this.props.step, this.props);
+    return (
+      <section className="game">
+        {this.props.step > -1 && (
+          <GameHeader
+            mistakes={this.props.mistakes}
+            gameTime={200}
+            // registrateTimer={registrateTimer}
+            // onTimeUpdate={onTimeUpdate}
+            // onTimeEnd={onTimeEnd}
+          />
+        )}
+        {App.getScreen(this.props.step, this.props)}
+      </section>
+    );
   }
 }
 
