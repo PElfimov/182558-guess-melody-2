@@ -284,4 +284,52 @@ describe(`Action creators work correctly`, () => {
     });
   });
 
+  it(`Action creator reset state if step more then lenght array questions`, () => {
+    expect(ActionCreator.incrementMistake([false, true, false, false], [{
+      type: `genre`,
+      genre: `dance`,
+      answers: [
+        {
+          src: `1`,
+          genre: `rock`,
+        },
+        {
+          src: `2`,
+          genre: `dance`,
+        },
+        {
+          src: `3`,
+          genre: `jazz`,
+        },
+        {
+          src: `4`,
+          genre: `rock`,
+        },
+      ],
+    }, {
+      type: `genre`,
+      genre: `dance`,
+      answers: [
+        {
+          src: `1`,
+          genre: `rock`,
+        },
+        {
+          src: `2`,
+          genre: `dance`,
+        },
+        {
+          src: `3`,
+          genre: `jazz`,
+        },
+        {
+          src: `4`,
+          genre: `rock`,
+        },
+      ],
+    }], Infinity, 0, 2)).toEqual({
+      type: `RESET`
+    });
+  });
+
 });

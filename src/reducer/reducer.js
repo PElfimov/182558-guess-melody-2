@@ -13,15 +13,26 @@ const ActionCreator = {
     payload: 1
   }),
 
-  incrementMistake: (userUnswear, question, mistakes, maxMistakes) => {
-    let answerIsCorrect = false;
+  incrementMistake: (userUnswear, questions, mistakes, maxMistakes, step) => {
+    console.log(`ответ пользователя `, userUnswear);
+    console.log(`шаг `, step);
+    console.log(`Вопросы массив`, questions);
+    console.log(`Вопросы пререданные на экран`, questions[step]);
 
-    switch (question.type) {
+
+    let answerIsCorrect = false;
+    if (step >= questions.length) {
+      return {
+        type: `RESET`,
+      };
+    }
+
+    switch (questions[step].type) {
       case `artist`:
-        answerIsCorrect = isArtistAnswerCorrect(userUnswear, question);
+        answerIsCorrect = isArtistAnswerCorrect(userUnswear, questions[step]);
         break;
       case `genre`:
-        answerIsCorrect = isGenreAnswerCorrect(userUnswear, question);
+        answerIsCorrect = isGenreAnswerCorrect(userUnswear, questions[step]);
         break;
     }
 

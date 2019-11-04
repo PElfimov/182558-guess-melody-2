@@ -17,3 +17,5 @@ plugins: ["react"]
 settings:
   react:
     version: "16"
+# rules:
+#   no-console: "off"
