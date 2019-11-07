@@ -1,11 +1,9 @@
 import React, {PureComponent} from "react";
-import AudioPlayer from "../audio-player/audio-player";
 import propTypes from "./prop-types";
 
 export default class GenreQuestionScreen extends PureComponent {
   static _getInitialState(answers) {
     const initialState = {
-      activePlayer: -1,
       userAnswers: {}
     };
 
@@ -55,7 +53,7 @@ export default class GenreQuestionScreen extends PureComponent {
   }
 
   render() {
-    const {question, screenIndex} = this.props;
+    const {question, screenIndex, renderPlayer} = this.props;
     const {answers, genre} = question;
 
     return (
@@ -65,15 +63,7 @@ export default class GenreQuestionScreen extends PureComponent {
           {answers.map((answer, i) => {
             return (
               <div key={`${screenIndex}-answer-${i}`} className="track">
-                <AudioPlayer
-                  src={answer.src}
-                  isPlaying={i === this.state.activePlayer}
-                  onPlayButtonClick={() =>
-                    this.setState({
-                      activePlayer: this.state.activePlayer === i ? -1 : i
-                    })
-                  }
-                />
+                {renderPlayer(answer, i)}
                 <div className="game__answer">
                   <input
                     className="game__input visually-hidden"

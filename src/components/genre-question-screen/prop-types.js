@@ -11,5 +11,6 @@ export default {
     )
   }).isRequired,
   screenIndex: PropTypes.number.isRequired,
-  onAnswer: PropTypes.func
+  onAnswer: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired,
 };

@@ -6,6 +6,9 @@ import ArtistQuestionScreen from "../artist-question-screen/artist-question-scre
 import {ActionCreator} from "../../reducer/reducer";
 import GameHeader from "../game-header/game-header";
 import propTypes from "./prop-types.js";
+import withActivePlayer from "../../hocs/with-active-player/with-active-player";
+
+const GenreQuestionScreenWrapped = withActivePlayer(GenreQuestionScreen);
 
 class App extends PureComponent {
   static getScreen(step, props) {
@@ -26,7 +29,7 @@ class App extends PureComponent {
     switch (currentQuestion.type) {
       case `genre`:
         return (
-          <GenreQuestionScreen
+          <GenreQuestionScreenWrapped
             question={currentQuestion}
             onAnswer={(userAnswer) =>
               props.onUserAnswer(userAnswer, questions, mistakes, maxMistakes, step)
