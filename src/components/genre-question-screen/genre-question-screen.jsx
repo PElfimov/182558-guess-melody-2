@@ -2,60 +2,39 @@ import React, {PureComponent} from "react";
 import propTypes from "./prop-types";
 
 export default class GenreQuestionScreen extends PureComponent {
-  static _getInitialState(answers) {
-    const initialState = {
-      userAnswers: {}
-    };
-
-    answers.forEach((answer, i) => {
-      Object.assign(initialState.userAnswers, {[`answer-${i}`]: false});
-    });
-
-    return initialState;
-  }
-
   constructor(props) {
     super(props);
 
-    this.state = GenreQuestionScreen._getInitialState(props.question.answers);
+    const answers = this.props.question.answers;
 
-    this._handleChange = this._handleChange.bind(this);
+    this.state = {
+      userAnswer: new Array(answers.length).fill(false)
+    };
+
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  _handleChange({target: {name, checked}}) {
-    const userAnswers = Object.assign({}, this.state.userAnswers);
-    userAnswers[name] = checked;
-    this.setState({userAnswers});
+  _handleChange(i) {
+    const userAnswer = [...this.state.userAnswer];
+    userAnswer[i] = !userAnswer[i];
+    this.setState({userAnswer});
   }
 
   _handleSubmit(evt) {
     evt.preventDefault();
     const {onAnswer} = this.props;
-    onAnswer(this._getCheckedAnswer());
+    onAnswer(this.state.userAnswer);
     this._resetState();
   }
 
-  _getCheckedAnswer() {
-    const {userAnswers} = this.state;
-    const keys = Object.keys(userAnswers);
-
-    let checkedAnswers = keys.map((el) => {
-      return userAnswers[el];
-    });
-
-    return checkedAnswers;
-  }
-
   _resetState() {
-    const {answers} = this.props.question;
-    this.setState(GenreQuestionScreen._getInitialState(answers));
+    const answers = this.props.question.answers;
+    this.setState({userAnswer: new Array(answers.length).fill(false)});
   }
 
   render() {
     const {question, screenIndex, renderPlayer} = this.props;
     const {answers, genre} = question;
-
     return (
       <section className="game__screen">
         <h2 className="game__title">Выберите {genre} треки</h2>
@@ -70,9 +49,9 @@ export default class GenreQuestionScreen extends PureComponent {
                     type="checkbox"
                     name={`answer-${i}`}
                     value={`answer-${i}`}
-                    checked={this.state.userAnswers[`answer-${i}`]}
+                    checked={this.state.userAnswer[i]}
                     id={`answer-${i}`}
-                    onChange={this._handleChange}
+                    onChange={() => this._handleChange(i)}
                   />
                   <label className="game__check" htmlFor={`answer-${i}`}>
                     Отметить
