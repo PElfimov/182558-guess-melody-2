@@ -10,7 +10,6 @@ const withActivePlayer = (Component) => {
         activePlayer: -1,
       };
     }
-
     render() {
       const {activePlayer} = this.state;
 

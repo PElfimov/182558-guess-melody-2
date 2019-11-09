@@ -1,15 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AudioPlayer from "../audio-player/audio-player";
 
 export default class ArtistQuestionScreen extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isPlaying: false
-    };
-
     this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
   }
 
@@ -18,21 +12,14 @@ export default class ArtistQuestionScreen extends React.PureComponent {
   }
 
   render() {
-    const {question, screenIndex, onAnswer} = this.props;
-    const {isPlaying} = this.state;
+    const {question, screenIndex, onAnswer, renderPlayer} = this.props;
     const {answers, song} = question;
 
     return (
       <section className="game__screen">
         <h2 className="game__title">Кто исполняет эту песню?</h2>
         <div className="game__track">
-          <div className="track">
-            <AudioPlayer
-              isPlaying={isPlaying}
-              onPlayButtonClick={this._handlePlayButtonClick}
-              src={song.src}
-            />
-          </div>
+          <div className="track">{renderPlayer(song, 0)}</div>
         </div>
         <form
           className="game__artist"
@@ -77,5 +64,6 @@ ArtistQuestionScreen.propTypes = {
     )
   }).isRequired,
   screenIndex: PropTypes.number.isRequired,
-  onAnswer: PropTypes.func
+  onAnswer: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired
 };
