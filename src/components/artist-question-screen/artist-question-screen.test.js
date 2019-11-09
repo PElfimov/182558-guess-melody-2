@@ -30,6 +30,7 @@ it(`ArtistQuestionScreen component render correctly`, () => {
     question={question}
     screenIndex={0}
     onAnswer={() => {}}
+    renderPlayer={jest.fn()}
   />, {createNodeMock: () => ({})}
   ).toJSON();
 
