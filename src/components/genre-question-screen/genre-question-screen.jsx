@@ -42,7 +42,7 @@ export default class GenreQuestionScreen extends PureComponent {
           {answers.map((answer, i) => {
             return (
               <div key={`${screenIndex}-answer-${i}`} className="track">
-                {renderPlayer(answer, i)}
+                {renderPlayer(answer, i + screenIndex * 10)}
                 <div className="game__answer">
                   <input
                     className="game__input visually-hidden"
