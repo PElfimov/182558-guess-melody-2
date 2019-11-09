@@ -8,9 +8,7 @@ export default class AudioPlayer extends PureComponent {
     this._audioRef = createRef();
 
     this.state = {
-      progress: 0,
-      isLoading: true,
-      isPlaying: props.isPlaying
+      isLoading: true
     };
 
     this._onPlayButtonClick = this._onPlayButtonClick.bind(this);
@@ -87,7 +85,6 @@ export default class AudioPlayer extends PureComponent {
 
   _onPlayButtonClick() {
     this.props.onPlayButtonClick();
-    this.setState({isPlaying: !this.state.isPlaying});
   }
 }
 
