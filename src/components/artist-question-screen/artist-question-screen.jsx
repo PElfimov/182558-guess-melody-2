@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 export default class ArtistQuestionScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+    this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
+  }
+
+  _handlePlayButtonClick() {
+    this.setState({isPlaying: !this.state.isPlaying});
   }
 
   render() {
