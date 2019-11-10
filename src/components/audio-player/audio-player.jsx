@@ -7,17 +7,11 @@ export default class AudioPlayer extends PureComponent {
 
     this._audioRef = createRef();
 
-    this.state = {
-      isLoading: true
-    };
-
     this._onPlayButtonClick = this._onPlayButtonClick.bind(this);
   }
 
   render() {
-    const {isLoading} = this.state;
-    const {isPlaying} = this.props;
-
+    const {isPlaying, isLoading} = this.props;
     return (
       <Fragment>
         <button
@@ -34,15 +28,13 @@ export default class AudioPlayer extends PureComponent {
   }
 
   componentDidMount() {
-    const {src} = this.props;
+    const {src, onLoad} = this.props;
     const audio = this._audioRef.current;
 
     audio.src = src;
 
     audio.oncanplaythrough = () => {
-      this.setState({
-        isLoading: false
-      });
+      onLoad();
     };
 
     // audio.ontimeupdate = () => {
@@ -79,6 +71,8 @@ export default class AudioPlayer extends PureComponent {
 
 AudioPlayer.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   src: PropTypes.string.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired
+  onPlayButtonClick: PropTypes.func.isRequired,
+  onLoad: PropTypes.func.isRequired
 };
