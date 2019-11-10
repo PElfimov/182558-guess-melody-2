@@ -1,98 +1,111 @@
 import React from 'react';
-import Enzyme, {shallow} from 'enzyme';
+import Enzyme, {mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import GenreQuestionScreen from './genre-question-screen';
 
 Enzyme.configure({adapter: new Adapter()});
 
-const question = {
-  type: `genre`,
-  genre: `rock`,
-  answers: [
-    {
-      src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-      genre: `rock`,
-    },
-    {
-      src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-      genre: `pop`,
-    },
-    {
-      src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-      genre: `jazz`,
-    },
-    {
-      src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
-      genre: `rock`,
-    },
-  ],
-};
+describe(`GenreQuestionScreen component`, () => {
+  it(`reacts correctly to submit form event`, () => {
+    const question = {
+      type: `genre`,
+      genre: ``,
+      answers: [{src: `http://somesrc/`, genre: ``}]
+    };
+    const screenIndex = 0;
+    const userAnswer = [false, true, false, false];
+    const onAnswer = jest.fn();
+    const renderPlayer = jest.fn();
+    const submitPrevention = jest.fn();
+    const onClick = jest.fn();
 
-const answers = [true, true, false, true];
-
-const changeCheckboxStatus = (wrapper, UserAnswers) => {
-  wrapper.find(`.game__input`).forEach((node, index) => {
-    let name = node.prop(`name`);
-    node.simulate(`change`, {
-      target: {
-        name,
-        checked: UserAnswers[index],
-      }
-    });
-  });
-};
-
-describe(`GenreQuestionScreen component e2e tests`, () => {
-  let wrapper;
-  let callbackFunction;
-  let form;
-
-  beforeEach(() => {
-    callbackFunction = jest.fn();
-    wrapper = shallow(<GenreQuestionScreen
+    const genreQuestionScreen = mount(<GenreQuestionScreen
+      userAnswer={userAnswer}
       question={question}
-      screenIndex={0}
-      onAnswer={callbackFunction}
+      screenIndex={screenIndex}
+      onAnswer={onAnswer}
+      renderPlayer={renderPlayer}
+      onClick={onClick}
     />
     );
-    changeCheckboxStatus(wrapper, answers);
-    form = wrapper.find(`.game__tracks`);
+
+
+    const form = genreQuestionScreen.find(`form`);
+    form.simulate(`submit`, {preventDefault: submitPrevention});
+
+    expect(onAnswer).toHaveBeenCalledTimes(1);
+    expect(submitPrevention).toHaveBeenCalledTimes(1);
   });
 
-  it(`Check data in callback function`, () => {
+  it(`is rendered with correct checks`, () => {
+    const question = {
+      type: `genre`,
+      genre: ``,
+      answers: [
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``}
+      ]
+    };
+    const screenIndex = 0;
+    const mistakes = 1;
+    const gameTime = 0;
+    const userAnswer = [false, true, false, false];
+    const onAnswer = jest.fn();
+    const renderPlayer = jest.fn();
+    const onClick = jest.fn();
 
-    form.simulate(`submit`, {
-      preventDefault: () => {}
-    });
-    expect(callbackFunction).toHaveBeenCalledWith(answers);
+    const genreQuestionScreen = mount(<GenreQuestionScreen
+      userAnswer={userAnswer}
+      question={question}
+      screenIndex={screenIndex}
+      mistakes={mistakes}
+      gameTime={gameTime}
+      onAnswer={onAnswer}
+      renderPlayer={renderPlayer}
+      onClick={onClick}
+    />
+    );
+
+    expect(genreQuestionScreen.find(`input`)).toHaveLength(4);
+    expect(genreQuestionScreen.find(`input`).at(0).prop(`checked`)).toEqual(false);
+    expect(genreQuestionScreen.find(`input`).at(1).prop(`checked`)).toEqual(true);
   });
 
-  it(`Check call count function`, () => {
-    form.simulate(`submit`, {
-      preventDefault: () => {}
-    });
-    expect(callbackFunction).toBeCalledTimes(1);
-  });
+  it(`handles input change event correctly`, () => {
+    const question = {
+      type: `genre`,
+      genre: ``,
+      answers: [
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``},
+        {src: `http://somesrc/`, genre: ``}
+      ]
+    };
+    const screenIndex = 0;
+    const mistakes = 1;
+    const gameTime = 0;
+    const userAnswer = [false, true, false, false];
+    const onAnswer = jest.fn();
+    const renderPlayer = jest.fn();
+    const onClick = jest.fn();
 
-  it(`Answer correctly changed status on true in state`, () => {
-    const name = `answer-1`;
-    expect(wrapper.state(`userAnswers`)[name]).toBeTruthy();
-  });
+    const genreQuestionScreen = mount(<GenreQuestionScreen
+      userAnswer={userAnswer}
+      question={question}
+      screenIndex={screenIndex}
+      mistakes={mistakes}
+      gameTime={gameTime}
+      onAnswer={onAnswer}
+      renderPlayer={renderPlayer}
+      onClick={onClick}
+    />
+    );
 
-  it(`Answer correctly changed status on false in state`, () => {
-    const name = `answer-2`;
-    expect(wrapper.state(`userAnswers`)[name]).toBeFalsy();
-  });
-
-  it(`Reset state working correctly`, () => {
-    form.simulate(`submit`, {
-      preventDefault: () => {}
-    });
-    expect(wrapper.state(`userAnswers`)).toEqual({
-      "answer-0": false,
-      "answer-1": false,
-      "answer-2": false,
-      "answer-3": false,
-    });
+    genreQuestionScreen.find(`input`).at(0).simulate(`change`);
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(0);
   });
 });

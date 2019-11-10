@@ -1,103 +1,65 @@
-import React, {PureComponent} from "react";
-import AudioPlayer from "../audio-player/audio-player";
-import propTypes from "./prop-types";
+import React from "react";
+import PropTypes from "prop-types";
 
-export default class GenreQuestionScreen extends PureComponent {
-  static _getInitialState(answers) {
-    const initialState = {
-      activePlayer: -1,
-      userAnswers: {}
-    };
-
-    answers.forEach((answer, i) => {
-      Object.assign(initialState.userAnswers, {[`answer-${i}`]: false});
-    });
-
-    return initialState;
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = GenreQuestionScreen._getInitialState(props.question.answers);
-
-    this._handleChange = this._handleChange.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
-  }
-
-  _handleChange({target: {name, checked}}) {
-    const userAnswers = Object.assign({}, this.state.userAnswers);
-    userAnswers[name] = checked;
-    this.setState({userAnswers});
-  }
-
-  _handleSubmit(evt) {
+const GenreQuestionScreen = (props) => {
+  const _handleSubmit = (evt) => {
+    const {userAnswer} = props;
     evt.preventDefault();
-    const {onAnswer} = this.props;
-    onAnswer(this._getCheckedAnswer());
-    this._resetState();
-  }
+    const {onAnswer} = props;
+    onAnswer(userAnswer);
+  };
 
-  _getCheckedAnswer() {
-    const {userAnswers} = this.state;
-    const keys = Object.keys(userAnswers);
-
-    let checkedAnswers = keys.map((el) => {
-      return userAnswers[el];
-    });
-
-    return checkedAnswers;
-  }
-
-  _resetState() {
-    const {answers} = this.props.question;
-    this.setState(GenreQuestionScreen._getInitialState(answers));
-  }
-
-  render() {
-    const {question, screenIndex} = this.props;
-    const {answers, genre} = question;
-
-    return (
-      <section className="game__screen">
-        <h2 className="game__title">Выберите {genre} треки</h2>
-        <form className="game__tracks" onSubmit={this._handleSubmit}>
-          {answers.map((answer, i) => {
-            return (
-              <div key={`${screenIndex}-answer-${i}`} className="track">
-                <AudioPlayer
-                  src={answer.src}
-                  isPlaying={i === this.state.activePlayer}
-                  onPlayButtonClick={() =>
-                    this.setState({
-                      activePlayer: this.state.activePlayer === i ? -1 : i
-                    })
-                  }
+  const {question, screenIndex, renderPlayer, userAnswer, onClick} = props;
+  const {answers, genre} = question;
+  return (
+    <section className="game__screen">
+      <h2 className="game__title">Выберите {genre} треки</h2>
+      <form className="game__tracks" onSubmit={_handleSubmit}>
+        {answers.map((answer, i) => {
+          return (
+            <div key={`${screenIndex}-answer-${i}`} className="track">
+              {renderPlayer(answer, i + screenIndex * 10)}
+              <div className="game__answer">
+                <input
+                  className="game__input visually-hidden"
+                  type="checkbox"
+                  name={`answer-${i}`}
+                  value={`answer-${i}`}
+                  checked={userAnswer[i]}
+                  id={`answer-${i}`}
+                  onChange={() => onClick(i)}
                 />
-                <div className="game__answer">
-                  <input
-                    className="game__input visually-hidden"
-                    type="checkbox"
-                    name={`answer-${i}`}
-                    value={`answer-${i}`}
-                    checked={this.state.userAnswers[`answer-${i}`]}
-                    id={`answer-${i}`}
-                    onChange={this._handleChange}
-                  />
-                  <label className="game__check" htmlFor={`answer-${i}`}>
-                    Отметить
-                  </label>
-                </div>
+                <label className="game__check" htmlFor={`answer-${i}`}>
+                  Отметить
+                </label>
               </div>
-            );
-          })}
-          <button className="game__submit button" type="submit">
-            Ответить
-          </button>
-        </form>
-      </section>
-    );
-  }
-}
+            </div>
+          );
+        })}
+        <button className="game__submit button" type="submit">
+          Ответить
+        </button>
+      </form>
+    </section>
+  );
+};
 
-GenreQuestionScreen.propTypes = propTypes;
+GenreQuestionScreen.propTypes = {
+  question: PropTypes.exact({
+    type: PropTypes.oneOf([`genre`, `artist`]),
+    genre: PropTypes.string,
+    answers: PropTypes.arrayOf(
+        PropTypes.exact({
+          src: PropTypes.string,
+          genre: PropTypes.string
+        })
+    )
+  }).isRequired,
+  screenIndex: PropTypes.number.isRequired,
+  onAnswer: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired,
+  userAnswer: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  onClick: PropTypes.func.isRequired
+};
+
+export default GenreQuestionScreen;

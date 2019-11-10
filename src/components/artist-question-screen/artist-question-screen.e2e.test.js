@@ -31,6 +31,7 @@ describe(`ArtistQuestionScreen component e2e tests`, () => {
   const answer = question.answers[0];
   let wrapper;
   let callbackFunction;
+  const renderPlayer = jest.fn();
 
   beforeEach(() => {
     callbackFunction = jest.fn();
@@ -38,6 +39,7 @@ describe(`ArtistQuestionScreen component e2e tests`, () => {
       question={question}
       screenIndex={0}
       onAnswer={callbackFunction}
+      renderPlayer={renderPlayer}
     />
     );
 
