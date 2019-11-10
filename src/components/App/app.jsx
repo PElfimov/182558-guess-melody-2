@@ -7,8 +7,9 @@ import {ActionCreator} from "../../reducer/reducer";
 import GameHeader from "../game-header/game-header";
 import propTypes from "./prop-types.js";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
+import withAnswers from "../../hocs/with-answers/with-answers";
 
-const GenreQuestionScreenWrapped = withActivePlayer(GenreQuestionScreen);
+const GenreQuestionScreenWrapped = withAnswers(withActivePlayer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
 class App extends PureComponent {
