@@ -4,32 +4,14 @@ import propTypes from "./prop-types";
 export default class GenreQuestionScreen extends PureComponent {
   constructor(props) {
     super(props);
-
-    const answers = this.props.question.answers;
-
-    this.state = {
-      userAnswer: new Array(answers.length).fill(false)
-    };
-
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  _handleChange(i) {
-    const userAnswer = [...this.state.userAnswer];
-    userAnswer[i] = !userAnswer[i];
-    this.setState({userAnswer});
-  }
-
   _handleSubmit(evt) {
+    const {userAnswer} = this.props;
     evt.preventDefault();
     const {onAnswer} = this.props;
-    onAnswer(this.state.userAnswer);
-    this._resetState();
-  }
-
-  _resetState() {
-    const answers = this.props.question.answers;
-    this.setState({userAnswer: new Array(answers.length).fill(false)});
+    onAnswer(userAnswer);
   }
 
   render() {
