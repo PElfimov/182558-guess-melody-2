@@ -33,7 +33,7 @@ export default class GenreQuestionScreen extends PureComponent {
   }
 
   render() {
-    const {question, screenIndex, renderPlayer} = this.props;
+    const {question, screenIndex, renderPlayer, userAnswer, onClick} = this.props;
     const {answers, genre} = question;
     return (
       <section className="game__screen">
@@ -49,9 +49,9 @@ export default class GenreQuestionScreen extends PureComponent {
                     type="checkbox"
                     name={`answer-${i}`}
                     value={`answer-${i}`}
-                    checked={this.state.userAnswer[i]}
+                    checked={userAnswer[i]}
                     id={`answer-${i}`}
-                    onChange={() => this._handleChange(i)}
+                    onChange={() => onClick(i)}
                   />
                   <label className="game__check" htmlFor={`answer-${i}`}>
                     Отметить
