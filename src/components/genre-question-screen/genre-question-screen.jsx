@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-import propTypes from "./prop-types";
+import PropTypes from "prop-types";
 
 export default class GenreQuestionScreen extends PureComponent {
   constructor(props) {
@@ -51,4 +51,20 @@ export default class GenreQuestionScreen extends PureComponent {
   }
 }
 
-GenreQuestionScreen.propTypes = propTypes;
+GenreQuestionScreen.propTypes = {
+  question: PropTypes.exact({
+    type: PropTypes.oneOf([`genre`, `artist`]),
+    genre: PropTypes.string,
+    answers: PropTypes.arrayOf(
+        PropTypes.exact({
+          src: PropTypes.string,
+          genre: PropTypes.string
+        })
+    )
+  }).isRequired,
+  screenIndex: PropTypes.number.isRequired,
+  onAnswer: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired,
+  userAnswer: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  onClick: PropTypes.func.isRequired
+};
