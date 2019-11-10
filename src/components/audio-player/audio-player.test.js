@@ -12,6 +12,8 @@ describe(`AudioPlayer component tests`, () => {
     const tree = renderer.create(<AudioPlayer
       isPlaying={false}
       src={audioSrc}
+      isLoading={true}
+      onLoad={jest.fn()}
       onPlayButtonClick={handlePlayButtonClick}
     />, {createNodeMock: () => ({})}
     ).toJSON();

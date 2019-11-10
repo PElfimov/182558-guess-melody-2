@@ -4,38 +4,35 @@ import Adapter from 'enzyme-adapter-react-16';
 import AudioPlayer from './audio-player';
 
 Enzyme.configure({adapter: new Adapter()});
-const audioSrc = `https://ru-drivemusic.net/dl/bRsXc5_eA_aCygFCDE6QMg/1572529402/download_music/2019/10/nola-glupoe-serdce-jonvs-remix.mp3`;
 
-[`pause`, `play`].forEach((item) => jest.spyOn(window.HTMLMediaElement.prototype, item).mockImplementation(() => {}));
+describe(`Player component`, () => {
+  it(`reacts correctly to click event`, () => {
+    const mocks = {
+      isPlaying: false,
+      src: ``,
+      isLoading: false,
+      onPlayButtonClick: jest.fn(),
+      onLoad: jest.fn()
+    };
 
-describe(`AudioPlayer components e2e test`, () => {
-  const createWrapper = (isPlaying) => {
-    const handlePlayButtonClick = jest.fn();
-    return mount(<AudioPlayer
+    const {isPlaying, src, isLoading, onPlayButtonClick, onLoad} = mocks;
+
+    const player = mount(<AudioPlayer
       isPlaying={isPlaying}
-      src={audioSrc}
-      onPlayButtonClick={handlePlayButtonClick}
+      src={src}
+      isLoading={isLoading}
+      onPlayButtonClick={onPlayButtonClick}
+      onLoad={onLoad}
     />
     );
-  };
-  const click = (wrapper) => {
-    wrapper.setState({isLoading: false});
 
-    const button = wrapper.find(`button`);
-    button.simulate(`click`);
-  };
+    const onPlayMock = jest.fn();
+    const onPauseMock = jest.fn();
 
-  it(`On click play button component state isPlaying change to TRUE`, () => {
-    const wrapper = createWrapper(false);
-    click(wrapper);
+    player.instance()._audioRef.current.pause = onPauseMock;
+    player.instance()._audioRef.current.play = onPlayMock;
 
-    expect(wrapper.state().isPlaying).toBeTruthy();
-  });
-
-  it(`On click play button component state isPlaying change to FALSE`, () => {
-    const wrapper = createWrapper(true);
-    click(wrapper);
-
-    expect(wrapper.state().isPlaying).toBeFalsy();
+    player.find(`button`).simulate(`click`);
+    expect(onPlayButtonClick).toHaveBeenCalledTimes(1);
   });
 });
