@@ -31,6 +31,8 @@ it(`GenreQuestionScreen component render correctly`, () => {
     screenIndex={0}
     onAnswer={() => {}}
     renderPlayer={jest.fn()}
+    userAnswer={[false, false, false, false]}
+    onClick={jest.fn()}
   />, {createNodeMock: () => ({})}
   ).toJSON();
 

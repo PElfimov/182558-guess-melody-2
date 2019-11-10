@@ -7,12 +7,12 @@ import withAnswers from './with-answers';
 Enzyme.configure({adapter: new Adapter()});
 
 const MockComponent = (props) => {
-  const {onClick, answer} = props;
+  const {onClick, userAnswer} = props;
 
   return (
     <div>
       <ul>
-        {answer.map((_, index) => {
+        {userAnswer.map((_, index) => {
           return <li key={`item-${index}`} onClick={() => onClick(index)}></li>;
         })}
       </ul>
@@ -21,7 +21,7 @@ const MockComponent = (props) => {
 };
 
 MockComponent.propTypes = {
-  answer: PropTypes.arrayOf(PropTypes.number),
+  userAnswer: PropTypes.arrayOf(PropTypes.number),
   onClick: PropTypes.func.isRequired
 };
 
@@ -55,6 +55,6 @@ describe(`Component return by withAnswers function`, () => {
 
 
     wrapper.find(`li`).at(2).simulate(`click`);
-    expect(wrapper.state(`answer`)).toEqual([0, 0, 1, 0]);
+    expect(wrapper.state(`answer`)).toEqual([false, false, true, false]);
   });
 });
