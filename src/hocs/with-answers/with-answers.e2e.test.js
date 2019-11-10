@@ -21,7 +21,7 @@ const MockComponent = (props) => {
 };
 
 MockComponent.propTypes = {
-  userAnswer: PropTypes.arrayOf(PropTypes.number),
+  userAnswer: PropTypes.arrayOf(PropTypes.bool),
   onClick: PropTypes.func.isRequired
 };
 
