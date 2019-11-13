@@ -1,4 +1,11 @@
-import {reducer, isGenreAnswerCorrect, ActionCreator} from "./reducer";
+import MockAdapter from "axios-mock-adapter";
+import api from "../api";
+import {
+  reducer,
+  isGenreAnswerCorrect,
+  ActionCreator,
+  Operation
+} from "./reducer";
 
 describe(`Business logic is correct`, () => {
   it(`Genre question is  checked correctly`, () => {
@@ -141,6 +148,20 @@ describe(`Reducer works correctly`, () => {
       time: 299000,
       gameTimer: null
     });
+  });
+  it(`Should make a correct API call  to /questions`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const questionLoader = Operation.loadQuestion();
+
+    apiMock
+      .onGet(`/question`)
+      .reply(200, [{fake: true}]);
+
+    return questionLoader(dispatch)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+      });
   });
 });
 
