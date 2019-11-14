@@ -1,4 +1,4 @@
-import api from "../api";
+import loadQuestions from "../api";
 
 const GAME_TIME_MINUTES = 5;
 
@@ -123,7 +123,7 @@ const reducer = (state = initialState, action) => {
 
 const Operation = {
   loadQuestion: () => (dispatch) => {
-    return api.get(`/questions`)
+    return loadQuestions.get(`/questions`)
       .then((response) => {
         dispatch(ActionCreator.loadQuestion(response.data));
       });

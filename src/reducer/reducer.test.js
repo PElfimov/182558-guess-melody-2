@@ -62,6 +62,7 @@ describe(`Reducer works correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(reducer(undefined, {})).toEqual({
       step: -1,
+      questions: [],
       mistakes: 0,
       time: 300000,
       gameTimer: null
@@ -118,6 +119,7 @@ describe(`Reducer works correctly`, () => {
   it(`Reducer should correctly reset application state`, () => {
     expect(reducer({
       step: 898,
+      questions: [],
       mistakes: 34,
       time: 300000,
       gameTimer: null
@@ -126,6 +128,7 @@ describe(`Reducer works correctly`, () => {
       type: `RESET`,
     })).toEqual({
       step: -1,
+      questions: [],
       mistakes: 0,
       time: 300000,
       gameTimer: null
@@ -156,7 +159,9 @@ describe(`Reducer works correctly`, () => {
 
     apiMock
       .onGet(`/question`)
-      .reply(200, [{fake: true}]);
+      .reply(200, [{
+        fake: true
+      }]);
 
     return questionLoader(dispatch)
       .then(() => {
