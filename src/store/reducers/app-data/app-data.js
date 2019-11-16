@@ -1,5 +1,5 @@
 
-import {ActionType} from "../../actions/action-type.js";
+import {ActionType} from "../../actions/action-creator";
 
 const initialAppState = {
   questions: []

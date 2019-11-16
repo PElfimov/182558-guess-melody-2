@@ -5,7 +5,7 @@ import {
   isGenreAnswerCorrect,
   ActionCreator,
   Operation
-} from "./reducer";
+} from "./local-data";
 
 describe(`Business logic is correct`, () => {
   it(`Genre question is  checked correctly`, () => {

@@ -1,17 +1,16 @@
-import {ActionType} from "../actions/action-creator";
+import {ActionType} from "../../actions/action-creator";
 const GAME_TIME_MINUTES = 5;
 
-const initialState = {
+const localDataState = {
   step: -1,
   mistakes: 0,
-  questions: [],
   time: GAME_TIME_MINUTES * 60 * 1000,
   gameTimer: null
 
 };
 
 
-const reducer = (state = initialState, action) => {
+const localData = (state = localDataState, action) => {
   switch (action.type) {
     case ActionType.INCREMENT_STEP: return Object.assign({}, state, {
       step: state.step + action.payload,
@@ -30,17 +29,10 @@ const reducer = (state = initialState, action) => {
     case ActionType.REGISTRATE_TIMER: return Object.assign({}, state, {
       gameTimer: action.payload
     });
-    case ActionType.LOAD_QUESTIONS: return Object.assign({}, state, {
-      questions: action.payload
-    });
   }
 
   return state;
 };
 
 
-export {
-  initialState,
-  reducer
-
-};
+export default localData;

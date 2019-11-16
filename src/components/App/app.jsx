@@ -93,10 +93,10 @@ App.propTypes = {
 
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
-    step: state.step,
-    mistakes: state.mistakes,
-    time: state.time,
-    questions: state.questions
+    step: state.localData.step,
+    mistakes: state.localData.mistakes,
+    time: state.localData.time,
+    questions: state.appData.questions
   });
 
 const mapDispatchToProps = (dispatch) => ({
