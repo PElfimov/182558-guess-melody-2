@@ -6,9 +6,7 @@ import ReactDOM from "react-dom";
 import thunk from "redux-thunk";
 import {compose} from "recompose";
 import App from "./components/app/app";
-import questions from "./mocks/questions";
 import configureAPI from "./api";
-
 
 const init = () => {
   const api = configureAPI((...args) => store.dispatch(...args));
@@ -26,7 +24,7 @@ const init = () => {
 
   ReactDOM.render(
       <Provider store={store}>
-        <App mistakes={5} maxMistakes={maxMistakes} questions={questions} />
+        <App mistakes={5} maxMistakes={maxMistakes} />
       </Provider>,
       document.querySelector(`#root`)
   );

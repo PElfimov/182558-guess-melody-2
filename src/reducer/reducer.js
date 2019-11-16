@@ -1,5 +1,3 @@
-import loadQuestions from "../api";
-
 const GAME_TIME_MINUTES = 5;
 
 const initialState = {
@@ -115,19 +113,31 @@ const reducer = (state = initialState, action) => {
     case ActionType.REGISTRATE_TIMER: return Object.assign({}, state, {
       gameTimer: action.payload
     });
+    case ActionType.LOAD_QUESTIONS: return Object.assign({}, state, {
+      questions: action.payload
+    });
   }
 
   return state;
 };
 
 
+// const Operation = {
+//   loadQuestion: () => (dispatch) => {
+//     return loadQuestions.get(`/questions`)
+//       .then((response) => {
+//         dispatch(ActionCreator.loadQuestion(response.data));
+//       });
+//   },
+// };
+
 const Operation = {
-  loadQuestion: () => (dispatch) => {
-    return loadQuestions.get(`/questions`)
+  loadQuestions: () => (dispatch, _, api) => {
+    return api.get(`/questions`)
       .then((response) => {
-        dispatch(ActionCreator.loadQuestion(response.data));
+        dispatch(ActionCreator.loadQuestions(response.data));
       });
-  },
+  }
 };
 
 export {

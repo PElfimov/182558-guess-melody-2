@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import api from "../api";
+import createAPI from "../api";
 import {
   reducer,
   isGenreAnswerCorrect,
@@ -152,22 +152,31 @@ describe(`Reducer works correctly`, () => {
       gameTimer: null
     });
   });
-  it(`Should make a correct API call  to /questions`, function () {
-    const apiMock = new MockAdapter(api);
+
+});
+
+describe(`load data test group`, () => {
+  it(`Should make a correct call to /questions`, () => {
     const dispatch = jest.fn();
-    const questionLoader = Operation.loadQuestion();
+    const api = createAPI(dispatch);
+    const apiMock = new MockAdapter(api);
+    const questionLoader = Operation.loadQuestions();
 
     apiMock
-      .onGet(`/question`)
-      .reply(200, [{
-        fake: true
-      }]);
+      .onGet(`/questions`)
+      .reply(200, [{lul: true}]);
 
-    return questionLoader(dispatch)
+    return questionLoader(dispatch, null, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: `LOAD_QUESTIONS`,
+          payload: [{lul: true}]
+        });
       });
   });
+
+
 });
 
 describe(`Action creators work correctly`, () => {

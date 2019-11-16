@@ -5,7 +5,7 @@ import GenreQuestionScreen from "../genre-question-screen/genre-question-screen"
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 import {ActionCreator} from "../../reducer/reducer";
 import GameHeader from "../game-header/game-header";
-import propTypes from "./prop-types.js";
+import PropTypes from "prop-types";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
 import withAnswers from "../../hocs/with-answers/with-answers";
 
@@ -78,13 +78,25 @@ class App extends PureComponent {
   }
 }
 
-App.propTypes = propTypes;
+App.propTypes = {
+  maxMistakes: PropTypes.number.isRequired,
+  mistakes: PropTypes.number.isRequired,
+  step: PropTypes.number.isRequired,
+  time: PropTypes.number.isRequired,
+  questions: PropTypes.array.isRequired,
+  onWelcomeScreenClick: PropTypes.func.isRequired,
+  onUserAnswer: PropTypes.func.isRequired,
+  registrateTimer: PropTypes.func.isRequired,
+  onTimeUpdate: PropTypes.func.isRequired,
+  onTimeEnd: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     step: state.step,
     mistakes: state.mistakes,
-    time: state.time
+    time: state.time,
+    questions: state.questions
   });
 
 const mapDispatchToProps = (dispatch) => ({
