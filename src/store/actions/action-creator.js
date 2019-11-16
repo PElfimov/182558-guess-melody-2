@@ -82,4 +82,4 @@ const ActionCreator = {
   }
 };
 
-export {ActionType, ActionCreator};
+export {ActionType, ActionCreator, isGenreAnswerCorrect};

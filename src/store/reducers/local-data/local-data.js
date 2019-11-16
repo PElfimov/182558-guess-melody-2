@@ -19,7 +19,7 @@ const localData = (state = localDataState, action) => {
     case ActionType.INCREMENT_MISTAKES: return Object.assign({}, state, {
       mistakes: state.mistakes + action.payload,
     });
-    case ActionType.RESET: return Object.assign({}, initialState);
+    case ActionType.RESET: return Object.assign({}, localDataState);
 
     case ActionType.DECREMENT_TIME:
       return Object.assign({}, state, {
