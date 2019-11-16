@@ -1,12 +1,13 @@
 import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
-import {reducer, Operation} from "./store/reducers/reducer";
+import {reducer} from "./store/reducers/reducer";
 import React from "react";
 import ReactDOM from "react-dom";
 import thunk from "redux-thunk";
 import {compose} from "recompose";
 import App from "./components/app/app";
 import configureAPI from "./api";
+import Operation from './store/actions/async-actions';
 
 const init = () => {
   const api = configureAPI((...args) => store.dispatch(...args));

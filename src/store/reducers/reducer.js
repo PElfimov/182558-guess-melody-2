@@ -1,4 +1,4 @@
-import {ActionType, ActionCreator} from "../actions/action-creator";
+import {ActionType} from "../actions/action-creator";
 const GAME_TIME_MINUTES = 5;
 
 const initialState = {
@@ -38,17 +38,9 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-const Operation = {
-  loadQuestions: () => (dispatch, _, api) => {
-    return api.get(`/questions`)
-      .then((response) => {
-        dispatch(ActionCreator.loadQuestions(response.data));
-      });
-  }
-};
 
 export {
   initialState,
-  reducer,
-  Operation
+  reducer
+
 };
