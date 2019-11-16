@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
-import {ActionCreator} from "../../reducer/reducer";
+import {ActionCreator} from "../../store/reducers/reducer";
 import GameHeader from "../game-header/game-header";
 import PropTypes from "prop-types";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
